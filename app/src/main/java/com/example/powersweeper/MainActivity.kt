@@ -1,16 +1,16 @@
 package com.example.powersweeper
 
-//import android.R
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
-
 
 
 //import androidx.compose.material3.Text
@@ -25,6 +25,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.menu)
+
+        val button_settings = findViewById<Button>(R.id.settingsButton)
+
+        button_settings.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+
+//        button_settings.setOnClickListener {
+//            val intent = Intent(
+//                this@MainActivity,
+//                SettingsActivity::class.java
+//            )
+//            startActivity(intent)
+//        }
 
         val mySpinner = findViewById<Spinner>(R.id.difficultySelect)
         // Create an ArrayAdapter using the string array and a default spinner layout
