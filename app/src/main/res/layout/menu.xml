@@ -19,4 +19,19 @@
         android:text="PLAY"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <Spinner
+        android:id="@+id/difficultySelect"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+
+        android:backgroundTint="#D5D6D6"
+        android:backgroundTintMode="add" />
+
+    <Button
+        android:id="@+id/settingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings" />
+
 </LinearLayout>
