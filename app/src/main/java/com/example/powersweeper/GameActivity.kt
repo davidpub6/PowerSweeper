@@ -1,6 +1,8 @@
 package com.example.powersweeper
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -8,7 +10,6 @@ import android.os.Bundle
 import android.util.AttributeSet
 import android.view.*
 import androidx.activity.ComponentActivity
-import androidx.appcompat.app.AppCompatActivity
 import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
@@ -28,6 +29,9 @@ class GameActivity : ComponentActivity() {
 
         const val EXTRA_DIFFICULTY = "difficulty"
     }
+
+    private lateinit var gameView: MinesweeperView
+    private var difficulty = DIFFICULTY_EASY
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,5 +61,35 @@ class GameActivity : ComponentActivity() {
         // Create MinesweeperView with parameters
         val gameView = MinesweeperView(this, boardSize, mineCount)
         setContentView(gameView)
+    }
+
+    /**
+
+     * Call to show game over dialog with stats, then return to menu on OK.
+
+     */
+
+    fun showGameOverDialog(revealedCells: Int) {
+
+        val totalCells = gameView.boardSize * gameView.boardSize
+
+        val builder = AlertDialog.Builder(this)
+
+            .setTitle("Game Over")
+
+            .setMessage("You revealed a mine!\n\nCells revealed: $revealedCells\nBoard size: ${gameView.boardSize}x${gameView.boardSize}")
+
+            .setCancelable(false)
+
+            .setPositiveButton("OK") { _, _ ->
+
+                // Return to menu by finishing this activity
+
+                finish()
+
+            }
+
+        builder.show()
+
     }
 }
