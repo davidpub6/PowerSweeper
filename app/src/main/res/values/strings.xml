@@ -2,11 +2,12 @@
     <string name="app_name">PowerSweeper</string>
     <string-array name="difficulties">
 
-        <item>Item 1</item>
-        <item>Item 2</item>
-        <item>Item 3</item>
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Hard</item>
 
     </string-array>
+
     <string name="title_activity_settings">SettingsActivity</string>
 
     <!-- Preference Titles -->

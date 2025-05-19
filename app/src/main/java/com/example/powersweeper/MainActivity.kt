@@ -26,9 +26,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.menu)
 
-        val button_settings = findViewById<Button>(R.id.settingsButton)
+        val buttonSettings = findViewById<Button>(R.id.settingsButton)
 
-        button_settings.setOnClickListener {
+        buttonSettings.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
 //            startActivity(intent)
 //        }
 
-        val mySpinner = findViewById<Spinner>(R.id.difficultySelect)
+        val difficultySpinner = findViewById<Spinner>(R.id.difficultySelect)
         // Create an ArrayAdapter using the string array and a default spinner layout
         val adapter = ArrayAdapter.createFromResource(
             this, R.array.difficulties, R.layout.difficultyspinnerlayout
@@ -49,9 +49,9 @@ class MainActivity : ComponentActivity() {
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(R.layout.difficultyitemlayout)
         // Apply the adapter to the spinner
-        mySpinner.adapter = adapter
+        difficultySpinner.adapter = adapter
         // Set a listener to handle item selection
-        mySpinner.onItemSelectedListener = object : OnItemSelectedListener {
+        difficultySpinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
                 view: View,
@@ -66,6 +66,22 @@ class MainActivity : ComponentActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Do nothing
             }
+        }
+
+        val playButton = findViewById<Button>(R.id.playButton)  // Your play button ID
+
+        playButton.setOnClickListener {
+            // Get selected difficulty from spinner as string, e.g. "easy", "medium", "hard"
+            val difficulty = when (difficultySpinner.selectedItem.toString().lowercase()) {
+                "medium" -> GameActivity.DIFFICULTY_MEDIUM
+                "hard" -> GameActivity.DIFFICULTY_HARD
+                else -> GameActivity.DIFFICULTY_EASY
+            }
+
+            // Create intent and pass difficulty extra
+            val intent = Intent(this, GameActivity::class.java)
+            intent.putExtra(GameActivity.EXTRA_DIFFICULTY, difficulty)
+            startActivity(intent)
         }
 
     }
