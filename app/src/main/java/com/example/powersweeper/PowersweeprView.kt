@@ -46,20 +46,55 @@ class MinesweeperView @JvmOverloads constructor(
         style = Paint.Style.FILL
     }
 
+    private val paintFlag = Paint().apply {
+        color = Color.RED
+        textAlign = Paint.Align.CENTER
+        textSize = 40f
+    }
+
     private val paintText = Paint().apply {
         color = Color.BLACK
         textAlign = Paint.Align.CENTER
         textSize = 40f
     }
 
+    var isFlagMode = false
+
+    enum class SpecialType{
+        NONE,
+        REVEAL_ONE,
+        REVEAL_AREA,
+        COVER_ONE,
+        FLAG_BOMB
+    }
 
     // Board data representation
     data class Cell(
         var isMine: Boolean = false,
         var isRevealed: Boolean = false,
-        var adjacentMines: Int = 0
+        var adjacentMines: Int = 0,
+        var isFlagged: Boolean = false,
+        var special: SpecialType = SpecialType.NONE
     )
 
+    private fun revealArea (row: Int, col: Int){
+        invalidate()
+
+        val cell = board[row][col]
+
+        for (r in max(0, row - 1)..min(boardSize - 1, row + 1)) {
+            for (c in max(0, col - 1)..min(boardSize - 1, col + 1)) {
+                if (!(r == row && c == col)) {
+                    val cell2 = board[r][c]
+                    if (cell2.isMine){
+                        flagCell(r,c)
+                    }else {
+                        revealCell(r, c)
+                    }
+                }
+            }
+        }
+    }
 
     private val board: Array<Array<Cell>> = Array(boardSize) { Array(boardSize) { Cell() } }
 
@@ -154,6 +189,11 @@ class MinesweeperView @JvmOverloads constructor(
                         canvas.drawText(cell.adjacentMines.toString(), cx, cy, paintText)
                     }
 
+                } else if (cell.isFlagged) {
+                    val cx = left + baseCellSize / 2
+                    val cy = top + baseCellSize / 2 - (paintText.ascent() + paintText.descent()) / 2
+                    canvas.drawRect(left, top, right, bottom, paintHidden)
+                    canvas.drawText("F", cx, cy, paintFlag)
                 } else {
                     // Hidden cell
                     canvas.drawRect(left, top, right, bottom, paintHidden)
@@ -208,7 +248,11 @@ class MinesweeperView @JvmOverloads constructor(
                     val row = floor(boardY).toInt()
 
                     if (row in 0 until boardSize && col in 0 until boardSize) {
-                        revealCell(row, col)
+                        if (isFlagMode){
+                            flagCell(row, col)
+                        } else {
+                            revealCell(row, col)
+                        }
                     }
                 }
             }
@@ -217,6 +261,19 @@ class MinesweeperView @JvmOverloads constructor(
         return true
     }
 
+    private fun flagCell(row: Int, col: Int) {
+        val cell = board[row][col]
+        if (cell.isRevealed) return // Already revealed
+
+        invalidate()
+
+        if (!cell.isFlagged){
+            cell.isFlagged = true
+        } else {
+            cell.isFlagged = false
+        }
+
+    }
 
     /**
      * Reveal the cell at the given row and column.
@@ -224,9 +281,11 @@ class MinesweeperView @JvmOverloads constructor(
      */
     private var revealedCellsCount = 0
     private var unrevealedCellsCount = boardSize*boardSize
+
     private fun revealCell(row: Int, col: Int) {
         val cell = board[row][col]
         if (cell.isRevealed) return // Already revealed
+        if (cell.isFlagged) return // Flagged cell
 
         cell.isRevealed = true
         revealedCellsCount++

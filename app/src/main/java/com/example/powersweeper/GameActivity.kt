@@ -9,6 +9,9 @@ import android.graphics.Paint
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.*
+import android.widget.FrameLayout
+import android.widget.ToggleButton
+import android.widget.Button
 import androidx.activity.ComponentActivity
 import kotlin.math.floor
 import kotlin.math.max
@@ -58,9 +61,69 @@ class GameActivity : ComponentActivity() {
             }
         }
 
+        // Create a container to hold gameView and toggle button
+        val container = FrameLayout(this)
+
         // Create MinesweeperView with parameters
         gameView = MinesweeperView(this, boardSize, mineCount)
-        setContentView(gameView)
+
+        // Create home button
+        val homeButton = Button(this).apply {
+            text = "Home"
+            setBackgroundColor(Color.LTGRAY)
+            setTextColor(Color.BLACK)
+            textSize = 18f
+            // Positioning: put at top left corner with padding
+            setPadding(20, 20, 20, 20)
+        }
+
+        // Layout params for home button (position top-left)
+        val homeParams = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT
+        ).apply {
+            gravity = Gravity.TOP or Gravity.START
+            topMargin = 20
+            marginStart = 20
+        }
+
+
+        // Create toggle button for flag/reveal mode
+        val toggleButton = ToggleButton(this).apply {
+            textOn = "Flag Mode"
+            textOff = "Reveal Mode"
+            isChecked = false // Default to reveal mode
+            setBackgroundColor(Color.LTGRAY)
+            setTextColor(Color.BLACK)
+            textSize = 18f
+            // Positioning: put at top right corner with padding
+            setPadding(20, 20, 20, 20)
+        }
+
+        // Layout params for toggle button (position bottom-middle)
+        val toggleParams = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT
+        ).apply {
+            gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+            bottomMargin = 20
+        }
+
+        // Add views to container
+        container.addView(gameView)
+        container.addView(homeButton, homeParams)
+        container.addView(toggleButton, toggleParams)
+        setContentView(container)
+
+        // Set home button listener to return to menu
+        homeButton.setOnClickListener {
+            finish()
+        }
+
+        // Set toggle listener to update flag mode in gameView
+        toggleButton.setOnCheckedChangeListener { _, isChecked ->
+            gameView.isFlagMode = isChecked
+        }
     }
 
     /**

@@ -4,4 +4,12 @@
         <item name="android:background">@color/gray_400</item>
         <item name="exampleColor">@color/light_blue_400</item>
     </style>
+
+    <style name="LightTheme" parent="Theme.PowerSweeperLight">
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="DarkTheme" parent="Theme.PowerSweeperDark">
+        <!-- Customize your theme here. -->
+    </style>
+
 </resources>
