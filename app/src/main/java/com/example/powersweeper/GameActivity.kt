@@ -59,7 +59,7 @@ class GameActivity : ComponentActivity() {
         }
 
         // Create MinesweeperView with parameters
-        val gameView = MinesweeperView(this, boardSize, mineCount)
+        gameView = MinesweeperView(this, boardSize, mineCount)
         setContentView(gameView)
     }
 
@@ -70,26 +70,27 @@ class GameActivity : ComponentActivity() {
      */
 
     fun showGameOverDialog(revealedCells: Int) {
-
         val totalCells = gameView.boardSize * gameView.boardSize
-
         val builder = AlertDialog.Builder(this)
-
             .setTitle("Game Over")
-
             .setMessage("You revealed a mine!\n\nCells revealed: $revealedCells\nBoard size: ${gameView.boardSize}x${gameView.boardSize}")
-
             .setCancelable(false)
-
             .setPositiveButton("OK") { _, _ ->
-
                 // Return to menu by finishing this activity
-
                 finish()
-
             }
-
         builder.show()
+    }
 
+    fun showGameWonDialog() {
+        val builder = AlertDialog.Builder(this)
+            .setTitle("Success")
+            .setMessage("You revealed all of the cells!\n \nBoard size: ${gameView.boardSize}x${gameView.boardSize}")
+            .setCancelable(false)
+            .setPositiveButton("OK") { _, _ ->
+                // Return to menu by finishing this activity
+                finish()
+            }
+        builder.show()
     }
 }

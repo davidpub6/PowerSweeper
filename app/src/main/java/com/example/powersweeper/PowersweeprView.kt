@@ -222,12 +222,15 @@ class MinesweeperView @JvmOverloads constructor(
      * Reveal the cell at the given row and column.
      * If no adjacent mines, recursively reveals neighbors.
      */
-
+    private var revealedCellsCount = 0
+    private var unrevealedCellsCount = boardSize*boardSize
     private fun revealCell(row: Int, col: Int) {
         val cell = board[row][col]
         if (cell.isRevealed) return // Already revealed
 
         cell.isRevealed = true
+        revealedCellsCount++
+        unrevealedCellsCount--
         invalidate()
 
         if (cell.isMine) {
@@ -235,6 +238,10 @@ class MinesweeperView @JvmOverloads constructor(
             // Show game over dialog from the activity
 
             (context as? GameActivity)?.showGameOverDialog(revealedCellsCount)
+
+        } else if (unrevealedCellsCount == mineCount) {
+            //Game won
+            (context as? GameActivity)?.showGameWonDialog()
 
         } else if (cell.adjacentMines == 0) {
             // Reveal neighbors recursively
