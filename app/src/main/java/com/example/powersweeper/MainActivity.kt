@@ -12,14 +12,6 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 
-
-//import androidx.compose.material3.Text
-//import androidx.compose.runtime.Composable
-//import androidx.compose.ui.Modifier
-//import androidx.compose.ui.tooling.preview.Preview
-//import com.example.powersweeper.ui.theme.PowerSweeperTheme
-
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,14 +24,6 @@ class MainActivity : ComponentActivity() {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
-
-//        button_settings.setOnClickListener {
-//            val intent = Intent(
-//                this@MainActivity,
-//                SettingsActivity::class.java
-//            )
-//            startActivity(intent)
-//        }
 
         val difficultySpinner = findViewById<Spinner>(R.id.difficultySelect)
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -86,19 +70,3 @@ class MainActivity : ComponentActivity() {
 
     }
 }
-
-//@Composable
-//fun Greeting(name: String, modifier: Modifier = Modifier) {
-//    Text(
-//        text = "Hello $name!",
-//        modifier = modifier
-//    )
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    PowerSweeperTheme {
-//        Greeting("Android")
-//    }
-//}

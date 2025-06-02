@@ -1,21 +1,13 @@
 package com.example.powersweeper
 
 import android.app.AlertDialog
-import android.content.Context
-import android.content.Intent
-import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.Paint
 import android.os.Bundle
-import android.util.AttributeSet
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.ToggleButton
 import android.widget.Button
 import androidx.activity.ComponentActivity
-import kotlin.math.floor
-import kotlin.math.max
-import kotlin.math.min
 
 /**
  * This Activity hosts the Minesweeper game.
@@ -127,9 +119,7 @@ class GameActivity : ComponentActivity() {
     }
 
     /**
-
      * Call to show game over dialog with stats, then return to menu on OK.
-
      */
 
     fun showGameOverDialog(revealedCells: Int) {
